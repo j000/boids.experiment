@@ -45,3 +45,5 @@ set (TARGET1 boids)
 add_executable (${TARGET1} ${SOURCE_FILES})
 # use compiler standard
 target_compile_features (${TARGET1} PUBLIC c_static_assert)
+# link against SDL2
+target_link_libraries (${TARGET1} SDL2)
