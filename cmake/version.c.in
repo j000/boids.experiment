@@ -1,4 +1,4 @@
-#include "../version.h"
+#include "@CMAKE_CURRENT_SOURCE_DIR@/version.h"
 
 const char *gVERSION = "@VERSION@";
 const char *gVERSION_MAJOR = "@VERSION_MAJOR@";
