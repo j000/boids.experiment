@@ -28,6 +28,13 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in
 		${version_c})
 
 ########################################
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+	message (WARNING "Building debug version")
+	add_definitions(-DDEBUG)
+endif()
+
+########################################
 # target_compile_features:
 #   c_function_prototypes
 #     Function prototypes, as defined in ISO/IEC 9899:1990.
