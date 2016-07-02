@@ -42,6 +42,37 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 		exit (1);
 	}
 	atexit (SDL_Quit);
+
+	// create and show window
+	SDL_Window *win;
+
+	if ((win = SDL_CreateWindow ("Hello World!", 100, 100, 640, 480,
+				     SDL_WINDOW_SHOWN)) == NULL) {
+		fprintf (stderr, "Unable to create window:  %s\n",
+			 SDL_GetError ());
+		exit (1);
+	}
+	push (&head, (cleaner) SDL_DestroyWindow, win);
+#ifdef DEBUG
+	push (&head, (cleaner) printf, "SDL_DestroyWindow\n");
+#endif
+
+	// create renderer
+	SDL_Renderer *ren;
+
+	if ((ren = SDL_CreateRenderer (win, -1,
+				       SDL_RENDERER_ACCELERATED |
+				       SDL_RENDERER_PRESENTVSYNC)) == NULL) {
+		fprintf (stderr, "Unable to create renderer:  %s\n",
+			 SDL_GetError ());
+		SDL_DestroyWindow (win);
+		exit (1);
+	}
+	push (&head, (cleaner) SDL_DestroyRenderer, ren);
+#ifdef DEBUG
+	push (&head, (cleaner) printf, "SDL_DestroyRenderer\n");
+#endif
+
 	/* ... */
 
 	sleep (1);
