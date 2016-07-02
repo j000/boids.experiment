@@ -1,7 +1,9 @@
-#include "version.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "version.h"
+#include "cleanlist.h"
 
 #ifdef DEBUG
 #  warning Building debug version.
@@ -17,6 +19,20 @@
 #endif
 
 int main (int argc, char *argv[], char **env_var_ptr) {
+	list_item *head;
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtrampolines"
+	void cleanatexit (void) {
+		clean (head);
+	}
+#pragma GCC diagnostic pop
+	atexit (cleanatexit);
+
+#ifdef DEBUG
+	push (&head, (cleaner) printf, "done\n");
+#endif
+
 	printf ("%s v%s.%s-%s\n", gVERSION, gVERSION_MAJOR, gVERSION_MINOR,
 		gVERSION_REST);
 	// init SDL

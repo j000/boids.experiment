@@ -46,7 +46,7 @@ endif()
 #     Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
 
-set (SOURCE_FILES boids.c ${version_c})
+set (SOURCE_FILES boids.c cleanlist.c ${version_c})
 set (TARGET1 boids)
 # create executable
 add_executable (${TARGET1} ${SOURCE_FILES})
