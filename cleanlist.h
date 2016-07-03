@@ -6,7 +6,7 @@ typedef void (*cleaner) (void *);
 typedef struct list_item list_item;
 struct list_item {
 	cleaner func;
-	void *item;
+	void *arg;
 	list_item *next;
 };
 
@@ -16,7 +16,7 @@ struct list_item {
 void insert (list_item *, cleaner, void *);
 
 /*
- * Insert new element at the begging of the list
+ * Insert new element at the beginning of the list
  */
 void push (list_item **, cleaner, void *);
 

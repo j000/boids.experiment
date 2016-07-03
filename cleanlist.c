@@ -10,37 +10,41 @@ list_item *create_item (void) {
 		fprintf (stderr, "malloc failed creating list item\n");
 		exit (1);
 	}
-	where->item = NULL;
+	where->arg = NULL;
 	where->func = NULL;
 	where->next = NULL;
 	return where;
 }
 
-void insert (list_item * head, cleaner func, void *item) {
-	list_item *current = head;
+void insert (list_item * head, cleaner func, void *arg) {
+	if (head == NULL) {
+		head = create_item ();
+		head->arg = arg;
+		head->func = func;
+	} else {
+		list_item *current = head;
 
-	while (current->next != NULL) {
-		current = current->next;
+		while (current->next != NULL) {
+			current = current->next;
+		}
+		current->next = create_item ();
+		current->next->arg = arg;
+		current->next->func = func;
 	}
-	current->next = create_item ();
-	current->next->item = item;
-	current->next->func = func;
 }
 
-void push (list_item ** head, cleaner func, void *item) {
+void push (list_item ** head, cleaner func, void *arg) {
 	list_item *current = create_item ();
 
-	current->item = item;
+	current->arg = arg;
 	current->func = func;
 	current->next = *head;
 	*head = current;
 }
 
 void clean (list_item * head) {
-	list_item *current = head;
-
-	while (current != NULL) {
-		current->func (current->item);
-		current = current->next;
+	while (head != NULL) {
+		head->func (head->arg);
+		head = head->next;
 	}
 }
