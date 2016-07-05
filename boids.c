@@ -16,19 +16,19 @@
 #endif
 
 int main (int argc, char *argv[], char **env_var_ptr) {
-	list_item *head;
 	ERROR ("start");
+	pListItem head = NULL;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wtrampolines"
-	void cleanatexit (void) {
-		clean (head);
+	void cleaningatexit (void) {
+		cleaning (&head);
 	}
 #pragma GCC diagnostic pop
-	atexit (cleanatexit);
+	atexit (cleaningatexit);
 
 #ifdef DEBUG
-	push (&head, (cleaner) printf, "done\n");
+	push_cleaner (&head, (fpCleaner) printf, "done\n");
 #endif
 
 	printf ("%s v%s.%s-%s\n", gVERSION, gVERSION_MAJOR, gVERSION_MINOR,
@@ -50,9 +50,9 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 			 SDL_GetError ());
 		exit (1);
 	}
-	push (&head, (cleaner) SDL_DestroyWindow, win);
+	push_cleaner (&head, (fpCleaner) SDL_DestroyWindow, window);
 #ifdef DEBUG
-	push (&head, (cleaner) printf, "SDL_DestroyWindow\n");
+	push_cleaner (&head, (fpCleaner) printf, "SDL_DestroyWindow\n");
 #endif
 
 	// create renderer
@@ -65,9 +65,9 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 			 SDL_GetError ());
 		exit (1);
 	}
-	push (&head, (cleaner) SDL_DestroyRenderer, ren);
+	push_cleaner (&head, (fpCleaner) SDL_DestroyRenderer, renderer);
 #ifdef DEBUG
-	push (&head, (cleaner) printf, "SDL_DestroyRenderer\n");
+	push_cleaner (&head, (fpCleaner) printf, "SDL_DestroyRenderer\n");
 #endif
 
 	/* ... */

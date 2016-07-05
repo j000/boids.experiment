@@ -1,28 +1,29 @@
 #ifndef CLEANLIST_H
 #  define CLEANLIST_H
 
-typedef void (*cleaner) (void *);
-
-typedef struct list_item list_item;
-struct list_item {
-	cleaner func;
+typedef void (*fpCleaner) (void *);
+typedef void *pArgument;
+typedef struct sListItem ListItem;
+typedef ListItem *pListItem;
+struct sListItem {
+	fpCleaner func;
 	void *arg;
-	list_item *next;
+	pListItem next;
 };
-
-/*
- * Insert new element at the end of the list
- **/
-void insert (list_item *, cleaner, void *);
 
 /*
  * Insert new element at the beginning of the list
  */
-void push (list_item **, cleaner, void *);
+void push_cleaner (pListItem *, fpCleaner, pArgument);
+
+/**
+ * Remove element from the beginning of the list
+ */
+pListItem pop_cleaner (pListItem *);
 
 /*
  * Go through list, and launch functions
  */
-void clean (list_item *);
+void cleaning (pListItem *);
 
 #endif // CLEANLIST_H
