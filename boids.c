@@ -2,24 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "my_macros.h"
 #include "version.h"
 #include "cleanlist.h"
 
-#ifdef DEBUG
-#  warning Building debug version.
-#endif
-
 #if !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
-#  pragma message "Compiling on unix-compatible system..."
+#  pragma message "Compiling for unix-compatible system..."
 #  include <unistd.h>
 #elif defined(_WIN32)
-#  pragma message "Compiling on windows..."
+#  pragma message "Compiling for windows..."
 #  include <windows.h>
 #  define sleep(x) Sleep((x)*1000)
 #endif
 
 int main (int argc, char *argv[], char **env_var_ptr) {
 	list_item *head;
+	ERROR ("start");
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wtrampolines"
@@ -65,7 +63,6 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 				       SDL_RENDERER_PRESENTVSYNC)) == NULL) {
 		fprintf (stderr, "Unable to create renderer:  %s\n",
 			 SDL_GetError ());
-		SDL_DestroyWindow (win);
 		exit (1);
 	}
 	push (&head, (cleaner) SDL_DestroyRenderer, ren);
