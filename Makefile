@@ -16,7 +16,7 @@ ifeq ($(findstring s,$(MAKEFLAGS)),s)
 endif
 
 .PHONY: just-exe
-just-exe: | all clean-cmake
+just-exe: | all .clean-cmake
 
 .PHONY: all
 all: $(BUILDDIR)/Makefile
@@ -31,14 +31,14 @@ $(BUILDDIR)/Makefile:
 	(cd $(BUILDDIR) && cmake .. $(SILENT) $(DEBUG))
 
 .PHONY: distclean
-distclean: | $(BUILDDIR)/Makefile .my-clean clean-cmake
+distclean: | $(BUILDDIR)/Makefile .my-clean .clean-cmake
 
 .PHONY: .my-clean
 .my-clean:
 	$(MAKE) -C $(BUILDDIR) clean
 
-.PHONY: clean-cmake
-clean-cmake:
+.PHONY: .clean-cmake
+.clean-cmake:
 	$(RM) ./$(BUILDDIR)/Makefile
 	$(RM) ./$(BUILDDIR)/CMakeCache.txt
 	$(RM) ./$(BUILDDIR)/CMakeFiles
@@ -46,7 +46,11 @@ clean-cmake:
 	$(RM) ./$(BUILDDIR)/version.c
 	@- rmdir --ignore-fail-on-non-empty ./$(BUILDDIR)
 
-ifeq (,$(filter $(MAKECMDGOALS),$(BUILDDIR)/Makefile just-exe all debug distclean .my-clean clean-cmake))
+.PHONY: .valgrind
+.valgrind: debug
+	valgrind ./$(BUILDDIR)/boids
+
+ifeq (,$(filter $(MAKECMDGOALS),$(BUILDDIR)/Makefile just-exe all debug distclean .my-clean .clean-cmake .valgrind))
 .PHONY: $(MAKECMDGOALS)
 $(MAKECMDGOALS): $(BUILDDIR)/Makefile
 	$(MAKE) -C $(BUILDDIR) $(MAKECMDGOALS)

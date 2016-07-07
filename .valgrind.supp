@@ -1,0 +1,46 @@
+{
+   XInternAtom: Syscall param writev(vector[...]) points to uninitialised byte(s)
+   Memcheck:Param
+   writev(vector[...])
+   obj:/lib*/libc-*.so
+   obj:/usr/lib*/libxcb.so*
+   ...
+   fun:XInternAtom
+   ...
+   obj:/usr/lib*/libSDL2-2.0.so*
+}
+{
+   nvidia: Syscall param sendmsg(msg.msg_iov[0]) points to uninitialised byte(s)
+   Memcheck:Param
+   sendmsg(msg.msg_iov[0])
+   obj:/lib*/libc-*.so
+   obj:/usr/lib*/opengl/nvidia/lib/libGL.so*
+   ...
+   obj:/usr/lib*/libnvidia-glcore.so*
+   ...
+   obj:/usr/lib*/opengl/nvidia/lib/libGL.so*
+}
+{
+   libSDL2 leaks
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib*/libSDL2-2.0.so*
+}
+{
+   XOpenIM malloc errors
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:/usr/lib*/libX11.so*
+   ...
+   fun:XOpenIM
+}
+{
+   openGL _dl_catch_error leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_dl_catch_error
+}
