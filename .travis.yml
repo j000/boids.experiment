@@ -34,7 +34,9 @@ matrix:
           packages:
             - *newcmake
             - gcc-5
-      env: MY_BUILD_TYPE=debug
+      env:
+        - MY_BUILD_TYPE=debug
+        - DIFFERENT_CACHE=gcc-5-debug
     - compiler: gcc-5
       addons:
         apt:
@@ -42,7 +44,9 @@ matrix:
           packages:
             - *newcmake
             - gcc-5
-      env: MY_BUILD_TYPE=all
+      env:
+        - MY_BUILD_TYPE=all
+        - DIFFERENT_CACHE=gcc-5-all
     - compiler: gcc-4.9
       addons:
         apt:
@@ -50,7 +54,9 @@ matrix:
           packages:
             - *newcmake
             - gcc-4.9
-      env: MY_BUILD_TYPE=all
+      env:
+        - MY_BUILD_TYPE=all
+        - DIFFERENT_CACHE=gcc-4.9-all
     - compiler: clang-3.9
       addons:
         apt:
@@ -58,7 +64,9 @@ matrix:
           packages:
             - *newcmake
             - clang-3.9
-      env: MY_BUILD_TYPE=all
+      env:
+        - MY_BUILD_TYPE=all
+        - DIFFERENT_CACHE=clang-3.9-all
 
 script:
   - echo $MY_BUILD_TYPE
