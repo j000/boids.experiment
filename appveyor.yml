@@ -21,4 +21,4 @@ build_script:
     cd build
     cmake -G"Visual Studio 14 2015 Win64" ..
     dir
-    devenv Boids.Experiment.sln /Build Release /Platform x64
+    msbuild Boids.Experiment.sln /p:Configuration=Release /p:Platform="x64" /m

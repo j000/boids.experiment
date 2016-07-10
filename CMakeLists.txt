@@ -6,7 +6,8 @@ add_executable (boids boids.c)
 target_sources (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
+#if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
+if (MSVC)
 	message (STATUS "MSVC detected")
 	message (STATUS "$ENV{SDL2_LIBRARIES} ${SDL2_LIBRARIES}")
 	set_property (TARGET boids PROPERTY C_STANDARD 99)
