@@ -3,9 +3,28 @@ language: c
 matrix:
   fast_finish: true
 
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise
+      - ubuntu-toolchain-r-test
+    packages:
+      - make
+      - cmake
+      - gcc-5
+      - gcc-4.9
+      - gcc-4.8
+      - clang-3.9
+      - clang-3.8
+      - clang-3.7
+
 compiler:
-  - gcc
-  - clang
+  - gcc-5
+  - gcc-4.9
+  - gcc-4.8
+  - clang-3.9
+  - clang-3.8
+  - clang-3.7
 
 env:
   - MY_BUILD_TYPE=all
