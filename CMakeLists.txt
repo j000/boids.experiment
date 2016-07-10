@@ -55,10 +55,10 @@ find_package (SDL2 REQUIRED)
 # CMP0004 policy
 # trailing space issue
 string (STRIP "${SDL2_LIBRARIES} " SDL2_LIBRARIES)
-string (STRIP "${SDL2_INCLUDES} " SDL2_INCLUDES)
+string (STRIP "${SDL2_INCLUDE_DIRS} " SDL2_INCLUDE_DIRS)
 
 message (STATUS ${SDL2_LIBRARIES})
-message (STATUS ${SDL2_INCLUDES})
+message (STATUS ${SDL2_INCLUDE_DIRS})
 
-target_include_directories (${TARGET1} PRIVATE ${SDL2_INCLUDES})
+target_include_directories (${TARGET1} PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries (${TARGET1} ${SDL2_LIBRARIES})
