@@ -17,32 +17,32 @@ matrix:
   include:
     - compiler: gcc-5
       addons:
-        sources: *mysources
         apt:
+          sources: *mysources
           packages:
             - *newcmake
             - gcc-5
       env: MY_BUILD_TYPE=debug
     - compiler: gcc-5
       addons:
-        sources: *mysources
         apt:
+          sources: *mysources
           packages:
             - *newcmake
             - gcc-5
       env: MY_BUILD_TYPE=all
     - compiler: gcc-4.9
       addons:
-        sources: *mysources
         apt:
+          sources: *mysources
           packages:
             - *newcmake
             - gcc-4.9
       env: MY_BUILD_TYPE=all
     - compiler: clang-3.9
       addons:
-        sources: *mysources
         apt:
+          sources: *mysources
           packages:
             - *newcmake
             - clang-3.9
