@@ -1,5 +1,7 @@
 # boids.experiment
 
+[![Build Status](https://travis-ci.org/j000/boids.experiment.svg?branch=master)](https://travis-ci.org/j000/boids.experiment)
+
 -----
     Copyright (C) 2016 , All rights reserved.
 

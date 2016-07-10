@@ -8,7 +8,7 @@ static pListItem create_item (fpCleaner func, pArgument arg) {
 
 	if ((where = malloc (sizeof (ListItem))) == NULL) {
 		ERROR ("malloc failed creating list item");
-		exit (1);
+		exit (EXIT_FAILURE);
 	}
 	where->arg = arg;
 	where->func = func;

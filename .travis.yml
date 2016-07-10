@@ -29,17 +29,9 @@ addons: &mydeps
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: MY_BUILD_TYPE=debug
   include:
-    - compiler: gcc-5
-      addons:
-        apt:
-          sources: *mysources
-          packages:
-            - *newcmake
-            - gcc-5
-      env:
-        - MY_BUILD_TYPE=debug
-        - DIFFERENT_CACHE=gcc-5-debug
     - compiler: gcc-5
       addons:
         apt:
@@ -50,6 +42,16 @@ matrix:
       env:
         - MY_BUILD_TYPE=all
         - DIFFERENT_CACHE=gcc-5-all
+    - compiler: gcc-5
+      addons:
+        apt:
+          sources: *mysources
+          packages:
+            - *newcmake
+            - gcc-5
+      env:
+        - MY_BUILD_TYPE=debug
+        - DIFFERENT_CACHE=gcc-5-debug
     - compiler: gcc-4.9
       addons:
         apt:

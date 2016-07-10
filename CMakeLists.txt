@@ -1,8 +1,9 @@
 cmake_minimum_required (VERSION 3.0)
-project (Boids.Experiment)
+project (Boids.Experiment C)
 
 ########################################
 # get current version from git.
+########################################
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 include (GetGitRevisionDescription)
 git_describe (VERSION --tags --dirty=-d)

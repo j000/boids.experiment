@@ -17,8 +17,8 @@
 #  define sleep(x) Sleep((x)*1000)
 #endif
 
-int main (int argc, char *argv[], char **env_var_ptr) {
-	ERROR ("start");
+int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
+	ERROR ("start")
 	pListItem head = NULL;
 
 #pragma GCC diagnostic push
@@ -89,7 +89,11 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 	SDL_RenderPresent (renderer);
 
 	// loop flag
+#ifdef DEBUG
+	int keepgoing = 30;
+#else
 	bool keepgoing = true;
+#endif
 
 	// event handler
 	SDL_Event e;
@@ -97,7 +101,7 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 	while (keepgoing) {
 		while (SDL_PollEvent (&e) != 0) {
 			if (e.type == SDL_QUIT) {
-				ERROR ("quit");
+				ERROR ("quit")
 				keepgoing = false;
 			}
 		}
@@ -105,6 +109,9 @@ int main (int argc, char *argv[], char **env_var_ptr) {
 
 		//17 ms ~~ 1/60 s <=> 17 ms * 60 = 1.02 s
 		SDL_Delay (17);
+#ifdef DEBUG
+		--keepgoing;
+#endif
 	}
 	/* ... */
 

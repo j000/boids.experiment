@@ -8,9 +8,9 @@
 
 /* check if we can use __func__ */
 #    if __STDC_VERSION__ >= 199901L
-#      define ERROR(...) fprintf(stderr, "[%s:%d:%s()] " FIRST(__VA_ARGS__) "\n", __FILE__, __LINE__, __func__ REST(__VA_ARGS__))
+#      define ERROR(...) fprintf(stderr, "[%s:%d:%s()] " FIRST(__VA_ARGS__) "\n", __FILE__, __LINE__, __func__ REST(__VA_ARGS__));
 #    else
-#      define ERROR(...) fprintf(stderr, "[%s:%d] " FIRST(__VA_ARGS__) "\n", __FILE__, __LINE__ REST(__VA_ARGS__))
+#      define ERROR(...) fprintf(stderr, "[%s:%d] " FIRST(__VA_ARGS__) "\n", __FILE__, __LINE__ REST(__VA_ARGS__));
 #    endif
 
 /* https://stackoverflow.com/a/11172679 */
