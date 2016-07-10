@@ -10,10 +10,10 @@ cache:
     - SDL2-2.0.4
 
 install:
-  - [[ ! -d sdl2install ]] && mkdir sdl2install
+  - if [[ ! -d sdl2install ]]; then mkdir sdl2install; fi
   - export SDL2DIR="$(pwd)/sdl2install"
-  - [[ ! -d SDL2-2.0.4 ]] && wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz' && tar xzf SDL2-2.0.3.tar.gz
-  - pushd SDL2-2.0.3 && ./configure --prefix=$SDL2DIR && make && make install && popd
+  - if [[ ! -d SDL2-2.0.4 ]]; then wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz'; tar xzf SDL2-2.0.3.tar.gz; fi
+  - pushd SDL2-2.0.3; ./configure --prefix=$SDL2DIR; make; make install; popd
 
 addons: &mydeps
   apt:
