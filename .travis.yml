@@ -9,11 +9,7 @@ cache:
     - sdl2install
     - SDL2-2.0.4
 
-env:
-  SDL2_VER=SDL2-2.0.4
-
 install:
-  - echo $SDL2_VER
   - if [[ ! -d sdl2install ]]; then mkdir sdl2install; fi
   - export SDL2DIR="$(pwd)/sdl2install"
   - if [[ ! -d SDL2-2.0.4 ]]; then wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz'; tar xzf SDL2-2.0.4.tar.gz; fi
@@ -66,7 +62,6 @@ matrix:
 
 script:
   - echo $MY_BUILD_TYPE
-  - echo $SDL2_VER
   - cmake --version
   - $CC --version
   - env
