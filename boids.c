@@ -17,16 +17,14 @@
 #  define sleep(x) Sleep((x)*1000)
 #endif
 
+pListItem head = NULL;
+void cleaningatexit (void) {
+	cleaning (&head);
+}
+
 int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 	ERROR ("start")
-	pListItem head = NULL;
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wtrampolines"
-	void cleaningatexit (void) {
-		cleaning (&head);
-	}
-#pragma GCC diagnostic pop
 	atexit (cleaningatexit);
 
 #ifdef DEBUG
