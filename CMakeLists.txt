@@ -6,12 +6,12 @@ add_executable (boids boids.c)
 target_sources (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-if (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
 	message (STATUS "MSVC detected")
 	message (STATUS "$ENV{SDL2_LIBRARIES} ${SDL2_LIBRARIES}")
 	set_property (TARGET boids PROPERTY C_STANDARD 99)
 	set_property (TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
-#else ()
+else ()
 ########################################
 # target_compile_features:
 #   c_function_prototypes Function prototypes, as defined in ISO/IEC 9899:1990.
@@ -19,7 +19,7 @@ if (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
 #   c_static_assert Static assert, as defined in ISO/IEC 9899:2011.
 #   c_variadic_macros Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
-#	target_compile_features (boids PUBLIC c_variadic_macros)
+	target_compile_features (boids PUBLIC c_variadic_macros)
 endif ()
 
 ########################################
@@ -27,8 +27,11 @@ endif ()
 ########################################
 # link against SDL2
 if (NOT (${SDL2_LIBRARIES} AND ${SDL2_INCLUDE_DIRS}))
-	message (WARNING "Should look for SDL2 here")
-#	find_package (SDL2 REQUIRED)
+	if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
+		message (WARNING "Should look for SDL2 here")
+	else ()
+		find_package (SDL2 REQUIRED)
+	endif ()
 endif ()
 # CMP0004 policy
 # trailing space issue

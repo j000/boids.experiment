@@ -16,9 +16,9 @@ install:
 
 build_script:
 - cmd: |
+    cmake --version
     md build
     cd build
-    cmake --version
     cmake -G"Visual Studio 14 2015 Win64" ..
     dir
-    msbuild /m /p:Platform="Win64" Boids.Experiment.sln
+    msbuild /m /p:Configuration=Release /p:Platform="Win64" Boids.Experiment.sln
