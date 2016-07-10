@@ -19,6 +19,9 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in
 		${version_c})
 
 ########################################
+IF ($ENV{TRAVIS})
+	SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+ENDIF ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	message (WARNING "Building debug version")
