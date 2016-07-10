@@ -16,7 +16,8 @@ addons: &mydeps
 matrix:
   include:
     - compiler: gcc-5
-      addons: *mydeps
+      addons:
+        <<: *mydeps
         apt:
           packages:
             - gcc-5
