@@ -6,8 +6,10 @@ add_executable (boids boids.c)
 target_sources (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-#set_property(TARGET boids PROPERTY C_STANDARD 11)
-#set_property(TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
+if (CMAKE_C_COMPILER_ID STREQUAL MSVC)
+	set_property(TARGET boids PROPERTY C_STANDARD 99)
+	set_property(TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
+else ()
 ########################################
 # target_compile_features:
 #   c_function_prototypes Function prototypes, as defined in ISO/IEC 9899:1990.
@@ -15,7 +17,8 @@ target_sources (boids PRIVATE cleanlist.c)
 #   c_static_assert Static assert, as defined in ISO/IEC 9899:2011.
 #   c_variadic_macros Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
-target_compile_features (boids PUBLIC c_variadic_macros)
+	target_compile_features (boids PUBLIC c_variadic_macros)
+endif ()
 
 ########################################
 # libraries
@@ -49,6 +52,9 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in
 target_sources (boids PRIVATE ${version_c})
 
 ########################################
+# build types
+########################################
+
 # building inside travis-ci
 IF ($ENV{TRAVIS})
 	SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)

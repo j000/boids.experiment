@@ -1,6 +1,7 @@
 # boids.experiment
 
-[![Build Status](https://travis-ci.org/j000/boids.experiment.svg?branch=master)](https://travis-ci.org/j000/boids.experiment)
+[![Build Status](https://travis-ci.org/j000/boids.experiment.svg)](https://travis-ci.org/j000/boids.experiment)
+[![Build status](https://ci.appveyor.com/api/projects/status/uy253q69xhasvdvg?svg=true)](https://ci.appveyor.com/project/j000/boids-experiment)
 
 -----
     Copyright (C) 2016 , All rights reserved.
