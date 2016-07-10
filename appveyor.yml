@@ -9,6 +9,7 @@ environment:
 
 install:
   - appveyor DownloadFile https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
+  - dir
   - 7z x SDL2-devel-2.0.3-VC.zip
 #  - set SDL2_LIBRARIES=SDL2-2.0.4/lib
 #  - set SDL2_INCLUDE_DIRS=SDL2-2.0.4/include
