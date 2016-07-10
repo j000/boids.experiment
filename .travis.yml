@@ -1,0 +1,12 @@
+language: c
+
+compiler:
+  - gcc
+  - clang
+
+env:
+  - BUILD_TYPE=all
+  - BUILD_TYPE=debug
+
+script:
+  - make ${BUILD_TYPE}
