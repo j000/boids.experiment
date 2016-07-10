@@ -6,10 +6,9 @@ add_executable (boids boids.c)
 target_sources (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-message (STATUS "${CMAKE_C_COMPILER_ID}")
-#if (CMAKE_C_COMPILER_ID STREQUAL MSVC)
+if (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
 	message (STATUS "MSVC detected")
-	message (STATUS "$ENV{SDL2_LIBRARIES}")
+	message (STATUS "$ENV{SDL2_LIBRARIES} ${SDL2_LIBRARIES}")
 	set_property (TARGET boids PROPERTY C_STANDARD 99)
 	set_property (TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
 #else ()
@@ -21,7 +20,7 @@ message (STATUS "${CMAKE_C_COMPILER_ID}")
 #   c_variadic_macros Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
 #	target_compile_features (boids PUBLIC c_variadic_macros)
-#endif ()
+endif ()
 
 ########################################
 # libraries
