@@ -7,15 +7,12 @@ addons: &mydeps
   apt:
     sources:
       - george-edison55-precise-backports
-    packages:
-      - cmake
-      - cmake-data
-  apt:
-    sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise
     packages:
-      - ${CC}
+      - cmake
+      - cmake-data
+      - $CC
 
 matrix:
   include:
