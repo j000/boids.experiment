@@ -1,12 +1,16 @@
 language: c
 
+matrix:
+  fast_finish: true
+
 compiler:
   - gcc
   - clang
 
 env:
-  - BUILD_TYPE=all
-  - BUILD_TYPE=debug
+  - MY_BUILD_TYPE=all
+  - MY_BUILD_TYPE=debug
 
 script:
-  - make $BUILD_TYPE
+  - echo $MY_BUILD_TYPE
+  - make $MY_BUILD_TYPE
