@@ -7,6 +7,8 @@ target_sources (boids PRIVATE cleanlist.c)
 
 # use compiler standard
 if (CMAKE_C_COMPILER_ID STREQUAL MSVC)
+	message(STATUS "MSVC detected")
+	message(STATUS "$ENV{SDL2_LIBRARIES}")
 	set_property(TARGET boids PROPERTY C_STANDARD 99)
 	set_property(TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
 else ()
