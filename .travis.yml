@@ -10,29 +10,30 @@ addons:
     packages:
       - cmake
       - cmake-data
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-5
-      - gcc-4.9
-      - gcc-4.8
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise
-    packages:
-      - clang-3.9
-      - clang-3.8
-      - clang-3.7
 
-compiler:
-  - gcc-5
-  - gcc-4.9
-  - gcc-4.8
-  - clang-3.9
-  - clang-3.8
-  - clang-3.7
+matrix:
+    - addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-5
+      compiler: gcc-5
+    - addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-4.9
+      compiler: gcc-4.9
+    - addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+          packages:
+            - clang-3.9
+      compiler: clang-3.9
 
 env:
   - MY_BUILD_TYPE=all
