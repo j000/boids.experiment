@@ -1,14 +1,13 @@
 language: c
 
-#cache:
-#  ccache: true
-#  apt: true
-#  directories:
-#    - sdl2install
-#    - SDL2-2.0.4
+cache:
+  ccache: true
+  apt: true
+  directories:
+    - sdl2install
+    - SDL2-2.0.4
 
 install:
-  - ls -al .casher
   - export SDL2DIR="$(pwd)/sdl2install"
   - if [[ ! -f SDL2-2.0.4/configure ]]; then wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz'; tar xzf SDL2-2.0.4.tar.gz; fi
   - if [[ ! -f sdl2install/include/SDL2/SDL.h ]]; then pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd; fi
