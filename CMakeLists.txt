@@ -51,4 +51,14 @@ add_executable (${TARGET1} ${SOURCE_FILES})
 # use compiler standard
 target_compile_features (${TARGET1} PUBLIC c_static_assert)
 # link against SDL2
-target_link_libraries (${TARGET1} SDL2)
+find_package (SDL2 REQUIRED)
+# CMP0004 policy
+# trailing space issue
+string (STRIP "${SDL2_LIBRARIES} " SDL2_LIBRARIES)
+string (STRIP "${SDL2_INCLUDES} " SDL2_INCLUDES)
+
+message (STATUS ${SDL2_LIBRARIES})
+message (STATUS ${SDL2_INCLUDES})
+
+target_include_directories (${TARGET1} PRIVATE ${SDL2_INCLUDES})
+target_link_libraries (${TARGET1} ${SDL2_LIBRARIES})

@@ -3,20 +3,20 @@ language: c
 matrix:
   fast_finish: true
 
-cache:
-  ccache: true
-  directories:
-    - sdl2install
-    - SDL2-2.0.4
+#cache:
+#  ccache: true
+#  directories:
+#    - sdl2install
+#    - SDL2-2.0.4
 
 install:
   - export SDL2DIR="$(pwd)/sdl2install"
-  - echo $SDL2DIR
   - if [[ ! -f SDL2-2.0.4/configure ]]; then wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz'; tar xzf SDL2-2.0.4.tar.gz; fi
-  - pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd
-  - ls -al $SDL2DIR
+  - if [[ ! -f sdl2install/include/SDL2/SDL.h ]]; then pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd; fi
+  - ls -al $SDL2DIR/include
+  - ls -al $SDL2DIR/lib
   - export CMAKE_INCLUDE_PATH=$SDL2DIR/include
-  - export CMAKE_LIBRARY_PATH=$SDL2DIR/libs
+  - export CMAKE_LIBRARY_PATH=$SDL2DIR/lib
 
 addons: &mydeps
   apt:
@@ -73,6 +73,7 @@ matrix:
 
 script:
   - echo $MY_BUILD_TYPE
+  - echo $CMAKE_INCLUDE_PATH $CMAKE_LIBRARY_PATH
   - cmake --version
   - $CC --version
   - make $MY_BUILD_TYPE
