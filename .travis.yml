@@ -17,6 +17,10 @@ addons:
       - gcc-5
       - gcc-4.9
       - gcc-4.8
+  apt:
+    sources:
+      - llvm-toolchain-precise
+    packages:
       - clang-3.9
       - clang-3.8
       - clang-3.7
