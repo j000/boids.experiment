@@ -1,18 +1,17 @@
-cmake_minimum_required (VERSION 3.0)
-project (Boids.Experiment C)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
+PROJECT ("Boids.Experiment" C)
 
 # create executable
-add_executable (boids boids.c)
-target_sources (boids PRIVATE cleanlist.c)
+ADD_EXECUTABLE (boids boids.c)
+TARGET_SOURCES (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-#if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
-if (MSVC)
-	message (STATUS "MSVC detected")
-	message (STATUS "$ENV{SDL2_LIBRARIES} ${SDL2_LIBRARIES}")
-	set_property (TARGET boids PROPERTY C_STANDARD 99)
-	set_property (TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
-else ()
+IF ((NOT DEFINED CMAKE_C_COMPILE_FEATURES) OR DEFINED MSVC)
+	MESSAGE (STATUS "MSVC detected")
+	MESSAGE (STATUS "CMAKE_C_COMPILE_FEATURES: ${CMAKE_C_COMPILE_FEATURES}")
+	SET_PROPERTY (TARGET boids PROPERTY C_STANDARD 99)
+	SET_PROPERTY (TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
+ELSE ((NOT DEFINED CMAKE_C_COMPILE_FEATURES) OR DEFINED MSVC)
 ########################################
 # target_compile_features:
 #   c_function_prototypes Function prototypes, as defined in ISO/IEC 9899:1990.
@@ -20,58 +19,66 @@ else ()
 #   c_static_assert Static assert, as defined in ISO/IEC 9899:2011.
 #   c_variadic_macros Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
-	target_compile_features (boids PUBLIC c_variadic_macros)
-endif ()
+	TARGET_COMPILE_FEATURES (boids PUBLIC c_variadic_macros)
+ENDIF ((NOT DEFINED CMAKE_C_COMPILE_FEATURES) OR DEFINED MSVC)
 
 ########################################
 # libraries
 ########################################
 # link against SDL2
-if (NOT (${SDL2_LIBRARIES} AND ${SDL2_INCLUDE_DIRS}))
-	if (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
-		message (WARNING "Should look for SDL2 here")
-	else ()
-		find_package (SDL2 REQUIRED)
-	endif ()
-endif ()
-# CMP0004 policy
-# trailing space issue
-string (STRIP "${SDL2_LIBRARIES} " SDL2_LIBRARIES)
-string (STRIP "${SDL2_INCLUDE_DIRS} " SDL2_INCLUDE_DIRS)
-target_include_directories (boids PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_libraries (boids ${SDL2_LIBRARIES})
+IF (NOT (DEFINED SDL2_LIBRARIES AND DEFINED SDL2_INCLUDE_DIRS))
+	IF (DEFINED ENV{APPVEYOR})
+		# TODO: use standard detection
+		MESSAGE (WARNING "Appveyor build detected. Forcing SDL2 paths.")
+		SET (SDL2_LIBRARIES "$ENV{SDL2_LIBRARIES}")
+		SET (SDL2_INCLUDE_DIRS "$ENV{SDL2_INCLUDE_DIRS}")
+	ELSE (DEFINED ENV{APPVEYOR})
+		# it's much faster when paths are already in the cache
+		# so try to NOT call find_package
+		FIND_PACKAGE (SDL2 REQUIRED)
+	ENDIF (DEFINED ENV{APPVEYOR})
+ENDIF (NOT (DEFINED SDL2_LIBRARIES AND DEFINED SDL2_INCLUDE_DIRS))
+# CMP0004 policy: remove trailing space
+STRING (STRIP "${SDL2_LIBRARIES} " SDL2_LIBRARIES)
+STRING (STRIP "${SDL2_INCLUDE_DIRS} " SDL2_INCLUDE_DIRS)
+TARGET_INCLUDE_DIRECTORIES (boids PRIVATE "${SDL2_INCLUDE_DIRS}")
+TARGET_LINK_LIBRARIES (boids PRIVATE "${SDL2_LIBRARIES}")
 
 ########################################
 # get current version from git.
 ########################################
-list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include (GetGitRevisionDescription)
-git_describe (VERSION --tags --dirty=-d)
+LIST (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+INCLUDE (GetGitRevisionDescription)
+GIT_DESCRIBE (VERSION --tags --dirty=-d)
 # separate version values
-string (REGEX REPLACE "^v([0-9]+)\\.([0-9]+)([.p-]([.0-9a-fg-z-]+d?))?$" "\\1" VERSION_MAJOR "${VERSION}")
-set (VERSION_MINOR ${CMAKE_MATCH_2})
-set (VERSION_REST ${CMAKE_MATCH_4})
-message (STATUS "Version: ${VERSION_MAJOR} . ${VERSION_MINOR} - ${VERSION_REST}")
+STRING (REGEX REPLACE "^v([0-9]+)\\.([0-9]+)([.p-]([.0-9a-fg-z-]+d?))?$" "\\1"
+	VERSION_MAJOR "${VERSION}"
+)
+SET (VERSION_MINOR "${CMAKE_MATCH_2}")
+SET (VERSION_REST "${CMAKE_MATCH_4}")
+MESSAGE (STATUS "Version: ${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_REST}")
 # create version file
-set (version_c "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/version.c")
-configure_file (${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in
-		${version_c})
-target_sources (boids PRIVATE ${version_c})
+SET (version_c "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/version.c")
+CONFIGURE_FILE ("${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in" "${version_c}")
+TARGET_SOURCES (boids PRIVATE "${version_c}")
 
 ########################################
 # build types
 ########################################
 
 # building inside travis-ci
-IF ($ENV{TRAVIS})
+IF (DEFINED ENV{TRAVIS})
 	SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-ENDIF ()
+ENDIF (DEFINED ENV{TRAVIS})
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	message (WARNING "Building debug version")
-	set(CMAKE_VERBOSE_MAKEFILE ON)
-	add_definitions(-DDEBUG)
-endif ()
+IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+	MESSAGE (WARNING "Building debug version")
+	MESSAGE (WARNING "CONFIG: $CONFIG")
+	SET (CMAKE_VERBOSE_MAKEFILE ON)
+	SET_PROPERTY (TARGET boids APPEND PROPERTY
+		COMPILE_DEFINITIONS $<$<CONFIG:Debug>:DEBUG>
+	)
+ENDIF (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 SET (CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2")
 SET (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -Wall -Wextra")
