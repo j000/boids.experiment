@@ -15,6 +15,7 @@ install:
   - if [[ ! -f sdl2install/include/SDL2/SDL.h ]]; then pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd; fi
   - ls -al $SDL2DIR/include
   - ls -al $SDL2DIR/lib
+  - export SDL2_DIR=$SDL2DIR/lib/cmake
   - export CMAKE_INCLUDE_PATH=$SDL2DIR/include
   - export CMAKE_LIBRARY_PATH=$SDL2DIR/lib
 
