@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "my_macros.h"
 #include "version.h"
