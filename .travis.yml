@@ -6,11 +6,17 @@ matrix:
 cache:
   ccache: true
   directories:
+    - sdl2install
     - SDL2-2.0.4
 
 install:
+  - export SDL2DIR="$(pwd)/sdl2install"
+  - echo $SDL2DIR
   - if [[ ! -f SDL2-2.0.4/configure ]]; then wget 'https://www.libsdl.org/release/SDL2-2.0.4.tar.gz'; tar xzf SDL2-2.0.4.tar.gz; fi
-  - pushd SDL2-2.0.4; ./configure; make; make install; popd
+  - pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd
+  - ls -al $SDL2DIR
+  - export CMAKE_INCLUDE_PATH=$SDL2DIR/include
+  - export CMAKE_LIBRARY_PATH=$SDL2DIR/libs
 
 addons: &mydeps
   apt:
