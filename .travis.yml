@@ -19,6 +19,7 @@ addons:
       - gcc-4.8
   apt:
     sources:
+      - ubuntu-toolchain-r-test
       - llvm-toolchain-precise
     packages:
       - clang-3.9
