@@ -6,7 +6,7 @@
 #  pragma message "Compiling for unix-compatible system..."
 #  include <unistd.h>
 #elif defined(_WIN32)
-#  pragma message "Compiling for windows..."
+#  pragma (message) "Compiling for windows..."
 #  include <windows.h>
 #  undef ERROR
 #  define sleep(x) Sleep((x)*1000)
