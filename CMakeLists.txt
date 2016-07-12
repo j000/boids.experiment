@@ -6,12 +6,13 @@ ADD_EXECUTABLE (boids boids.c)
 TARGET_SOURCES (boids PRIVATE cleanlist.c)
 
 # use compiler standard
-IF ((NOT DEFINED CMAKE_C_COMPILE_FEATURES)) # OR DEFINED MSVC)
+IF (DEFINED MSVC)
 	MESSAGE (STATUS "MSVC detected")
+	MESSAGE (ERROR "${CMAKE_C_COMPILE_FEATURES}")
 	MESSAGE (STATUS "CMAKE_C_COMPILE_FEATURES: ${CMAKE_C_COMPILE_FEATURES}")
 	SET_PROPERTY (TARGET boids PROPERTY C_STANDARD 99)
 	SET_PROPERTY (TARGET boids PROPERTY C_STANDARD_REQUIRED ON)
-ELSE ((NOT DEFINED CMAKE_C_COMPILE_FEATURES)) # OR DEFINED MSVC)
+ELSE (DEFINED MSVC)
 ########################################
 # target_compile_features:
 #   c_function_prototypes Function prototypes, as defined in ISO/IEC 9899:1990.
@@ -20,7 +21,7 @@ ELSE ((NOT DEFINED CMAKE_C_COMPILE_FEATURES)) # OR DEFINED MSVC)
 #   c_variadic_macros Variadic macros, as defined in ISO/IEC 9899:1999.
 ########################################
 	TARGET_COMPILE_FEATURES (boids PUBLIC c_variadic_macros)
-ENDIF ((NOT DEFINED CMAKE_C_COMPILE_FEATURES)) # OR DEFINED MSVC)
+ENDIF (DEFINED MSVC)
 
 ########################################
 # libraries
