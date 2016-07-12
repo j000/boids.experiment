@@ -66,8 +66,5 @@ matrix:
         - MY_BUILD_TYPE=all
 
 script:
-  - echo $MY_BUILD_TYPE
-  - echo $CMAKE_INCLUDE_PATH $CMAKE_LIBRARY_PATH
   - cmake --version
-  - $CC --version
   - make $MY_BUILD_TYPE

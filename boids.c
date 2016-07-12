@@ -1,5 +1,3 @@
-//#include <SDL2/SDL.h>
-#include <SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -7,6 +5,12 @@
 #include "my_macros.h"
 #include "version.h"
 #include "cleanlist.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#pragma clang diagnostic ignored "-Wpadded"
+#include <SDL.h>
+#pragma clang diagnostic pop
 
 #if !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
 #  pragma message "Compiling for unix-compatible system..."
@@ -16,6 +20,10 @@
 #  include <windows.h>
 #  define sleep(x) Sleep((x)*1000)
 #endif
+
+// declaraions
+extern pListItem head;
+void cleaningatexit (void);
 
 pListItem head = NULL;
 void cleaningatexit (void) {
