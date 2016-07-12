@@ -57,10 +57,9 @@ SET (VERSION_MINOR "${CMAKE_MATCH_2}")
 SET (VERSION_REST "${CMAKE_MATCH_4}")
 MESSAGE (STATUS "Version: ${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_REST}")
 # create version file
-SET (version_c "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/version.c")
+SET (version_c "${CMAKE_CURRENT_BINARY_DIR}/version.c")
 CONFIGURE_FILE ("${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in" "${version_c}")
 TARGET_SOURCES (boids PRIVATE "${version_c}")
-MESSAGE (WARNING "C/:/projects/boids-experiment/build/Release/version.c = ${version_c}")
 
 ########################################
 # build types
