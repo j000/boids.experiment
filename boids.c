@@ -2,24 +2,28 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "my_macros.h"
-#include "version.h"
-#include "cleanlist.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#pragma clang diagnostic ignored "-Wpadded"
-#include <SDL.h>
-#pragma clang diagnostic pop
-
 #if !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
 #  pragma message "Compiling for unix-compatible system..."
 #  include <unistd.h>
 #elif defined(_WIN32)
 #  pragma message "Compiling for windows..."
 #  include <windows.h>
+#  undef ERROR
 #  define sleep(x) Sleep((x)*1000)
 #endif
+
+#include "my_macros.h"
+#include "version.h"
+#include "cleanlist.h"
+
+// clang understands this too
+#pragma GCC diagnostic push
+#ifdef __clang__
+#  pragma clang diagnostic ignored "-Wreserved-id-macro"
+#  pragma clang diagnostic ignored "-Wpadded"
+#endif
+#include <SDL.h>
+#pragma GCC diagnostic pop
 
 // declaraions
 extern pListItem head;
