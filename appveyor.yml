@@ -4,7 +4,7 @@ pull_requests:
 os: Visual Studio 2015
 
 environment:
-  SDL2_LIBRARIES: /LIBPATH:SDL2-2.0.4/lib SDL2
+  SDL2_LIBRARIES: "/LIBPATH:SDL2-2.0.4\\lib /link SDL2"
   SDL2_INCLUDE_DIRS: SDL2-2.0.4/include
 
 install:
