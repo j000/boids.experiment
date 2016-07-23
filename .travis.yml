@@ -34,6 +34,7 @@ matrix:
     - compiler: clang-3.7
     - compiler: clang-3.8
     - compiler: clang-3.9
+
   include:
     - compiler: gcc-5
       addons:
@@ -119,3 +120,20 @@ matrix:
 script:
   - cmake --version
   - make $MY_BUILD_TYPE
+
+before_deploy:
+  - echo 'Preparing to deploy'
+  - mkdir release
+  - [[ "${MY_BUILD_TYPE}" = "all" ]] && cp build/boids release/boids
+  - [[ "${MY_BUILD_TYPE}" = "debug" ]] && cp build/boids release/boids.debug
+
+deploy:
+  provider: releases
+  api_key:
+    secure: r3cnOnq4IPkVv3wQLtFsQLVG5h+A7UXbzBhmoSRsI0c6a2RXIVAe5QMpD0MvVbHPthHiWoky1jgSAwhUdVC+a0TlvuAVE+XIAGvN18oR9pYq56WQhhV0Gn2R/lB9fMTNctDZBYyH4zJwL6hFz91FpC+UDdisZmIXWka9YRpFTeEHCweYvDn0B7oaOOcrsKNohAiy+0uRXzcYPURaRx2jrN6IN1bj79LVWC8CAwD0DxdAoxv/EhtxBfIHwDyn4LYnezLYITdTH8bOqyLAxw4w4s5jf8y//jOOPimxsJ8EkvtufRsSyg+eJ2K4E9ZZQ+99e++yxD+KqDh+facS0VR0496OGODABhUdamuitWWF0nB0tjEr2ExVOKh5CMOOsiwzjoMOVn2N7aX0Vo7X/2niCnqtcJaCTmutW5zHw0YN3Xaeww1SFeNq1u8asvKOjnSM09INyV/v2LTwdyS5otFT/7VAr8EA33qqw6C/VBogZedL71pccMt5u84fmTmliIlnCkq1CMCvTauFqJiX+HVv4nrn4Z/TdYaDuQf2zOpuuPKjY1nn921SwMQG7b3VgAo8hRJkBXr2Eey/yRJZUBoFwxa6UKQrML4OCT1/NrYNnwA9MRZINdNl2EJyAs/HHLF/weCAJLN7SF6PJiL5Z8py5cB8AjiaBcgr2pZjfcb45C4=
+  file_glob: true
+  file: 'release/*'
+  on:
+    repo: j000/boids.experiment
+    tags: true
+    compiler: gcc-5
