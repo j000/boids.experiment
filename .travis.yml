@@ -124,8 +124,8 @@ script:
 before_deploy:
   - echo 'Preparing to deploy'
   - mkdir release
-  - [[ "${MY_BUILD_TYPE}" = "all" ]] && cp build/boids release/boids
-  - [[ "${MY_BUILD_TYPE}" = "debug" ]] && cp build/boids release/boids.debug
+  - '[[ "${MY_BUILD_TYPE}" = "all" ]] && cp build/boids release/boids'
+  - '[[ "${MY_BUILD_TYPE}" = "debug" ]] && cp build/boids release/boids.debug'
 
 deploy:
   provider: releases
@@ -136,4 +136,4 @@ deploy:
   on:
     repo: j000/boids.experiment
     tags: true
-    compiler: gcc-5
+#    compiler: gcc-5
