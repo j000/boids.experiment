@@ -5,6 +5,7 @@
 extern const char *gVERSION;
 extern const char *gVERSION_MAJOR;
 extern const char *gVERSION_MINOR;
-extern const char *gVERSION_REST;
+extern const char *gVERSION_PATCH;
+extern const char *gVERSION_PRERELEASE;
 
 #endif //VERSION_H

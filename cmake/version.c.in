@@ -3,4 +3,5 @@
 const char *gVERSION = "@VERSION@";
 const char *gVERSION_MAJOR = "@VERSION_MAJOR@";
 const char *gVERSION_MINOR = "@VERSION_MINOR@";
-const char *gVERSION_REST = "@VERSION_REST@";
+const char *gVERSION_PATCH = "@VERSION_PATCH@";
+const char *gVERSION_PRERELEASE = "@VERSION_PRERELEASE@";

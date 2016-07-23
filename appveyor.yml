@@ -60,9 +60,6 @@ build_script:
     if "%platform%" == "x86" SET VS_PLATFORM=Win32
     if "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
     cmake -G "%VS_FULL%" --config "%configuration%" ..
-    rem if "%platform%" == "x86" forfiles /s /m * /c "cmd /c echo @path"
-    rem if "%platform%" == "x86" forfiles /s /m * /c "perl -pi -e 's/x64/x86/g' @path"
-    type Boids.Experiment.sln
     msbuild Boids.Experiment.sln /p:Configuration="%configuration%" /p:Platform="%VS_PLATFORM%" /m
     cd ..
 
@@ -83,6 +80,3 @@ deploy:
     on:
       branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
-
-#artifacts:
-#  - path: build/

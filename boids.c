@@ -35,16 +35,15 @@ void cleaningatexit (void) {
 }
 
 int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
-	ERROR ("start")
-
+	ERROR ("start");
 	atexit (cleaningatexit);
 
 #ifdef DEBUG
 	push_cleaner (&head, (fpCleaner) printf, "done\n");
 #endif
 
-	printf ("%s v%s.%s-%s\n", gVERSION, gVERSION_MAJOR, gVERSION_MINOR,
-		gVERSION_REST);
+	printf ("%s v%s.%s.%s-%s\n", gVERSION, gVERSION_MAJOR, gVERSION_MINOR,
+		gVERSION_PATCH, gVERSION_PRERELEASE);
 
 	// init SDL
 	if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -111,13 +110,14 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 	while (keepgoing) {
 		while (SDL_PollEvent (&e) != 0) {
 			if (e.type == SDL_QUIT) {
-				ERROR ("quit")
+				ERROR ("quit");
 				keepgoing = false;
 			}
 		}
 		SDL_RenderPresent (renderer);
 
 		//17 ms ~~ 1/60 s <=> 17 ms * 60 = 1.02 s
+		//FIXME That's not how you do fixed framerate
 		SDL_Delay (17);
 #ifdef DEBUG
 		--keepgoing;

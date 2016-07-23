@@ -52,12 +52,13 @@ ENDFOREACH (LIB ${SDL2_LIBRARIES})
 INCLUDE (GetGitRevisionDescription)
 GIT_DESCRIBE (VERSION --tags --dirty=.dirty)
 # separate version values
-STRING (REGEX REPLACE "^v([0-9]+)\\.([0-9]+)([.p-]([.0-9a-fg-z-]+d?))?$" "\\1"
+STRING (REGEX REPLACE "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([.0-9A-Za-z-]+))?$" "\\1"
 	VERSION_MAJOR "${VERSION}"
 )
 SET (VERSION_MINOR "${CMAKE_MATCH_2}")
-SET (VERSION_REST "${CMAKE_MATCH_4}")
-MESSAGE (STATUS "Version: ${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_REST}")
+SET (VERSION_PATCH "${CMAKE_MATCH_3}")
+SET (VERSION_PRERELEASE "${CMAKE_MATCH_5}")
+MESSAGE (STATUS "Version: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_PRERELEASE}")
 # create version file
 SET (version_c "${CMAKE_CURRENT_BINARY_DIR}/version.c")
 CONFIGURE_FILE ("${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in" "${version_c}")

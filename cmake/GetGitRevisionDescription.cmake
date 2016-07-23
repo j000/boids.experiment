@@ -119,6 +119,9 @@ function(git_describe _var)
 		OUTPUT_STRIP_TRAILING_WHITESPACE)
 	if(NOT res EQUAL 0)
 		set(out "${out}-${res}-NOTFOUND")
+		# fallback to file
+		file (STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/assumed-version" ASSUMED_VERSION LIMIT_COUNT 1)
+		string (REGEX REPLACE "\\$Tag:([^$]+)\\$" "\\1" out "${ASSUMED_VERSION}")
 	endif()
 
 	set(${_var} "${out}" PARENT_SCOPE)
