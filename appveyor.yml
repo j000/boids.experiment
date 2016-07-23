@@ -1,21 +1,88 @@
+# version format
 version: '{branch}.{build}'
+
+# build using VM
+image: Visual Studio 2015
+
 pull_requests:
   do_not_increment_build_number: true
-os: Visual Studio 2015
 
+# don't build gh-pages branch
+branches:
+  except:
+    - gh-pages
+
+# build platform, i.e. x86, x64, Any CPU
+platform:
+  - x64
+  - x86
+
+# build configuration
+configuration:
+  - Release
+  - Debug
+
+# allow failing debug jobs
+matrix:
+  fast_finish: true
+  allow_failures:
+    - configuration: Debug
+    - platform: x86
+
+# shallow clone
+shallow_clone: true
+clone_depth: 5
+
+# build cache to preserve files/folders between builds
+cache:
+  - SDL2-devel-2.0.4-VC.zip -> appveyor.yml
+  - SDL2-2.0.4 -> appveyor.yml
+
+# environment variables
 environment:
-  SDL2_LIBRARIES: -LIBPATH:"SDL2-2.0.4\\lib" -link SDL2.lib SDL2main.lib
-  SDL2_INCLUDE_DIRS: "SDL2-2.0.4\\include"
+  SDL2_INCLUDE_DIRS: "./SDL2-2.0.4/include"
+  SDL2_LIBRARIES: "../SDL2-2.0.4/lib/x64/SDL2;../SDL2-2.0.4/lib/x64/SDL2main"
 
+# scripts that run after cloning repository
 install:
-  - appveyor DownloadFile https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
-  - dir
-  - 7z x SDL2-devel-2.0.4-VC.zip
+  - if not exist SDL2-devel-2.0.4-VC.zip appveyor DownloadFile https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
+  - if not exist SDL2-2.0.4 7z x SDL2-devel-2.0.4-VC.zip
 
+# custom build script
 build_script:
-- cmd: |
-    cmake --version
+  cmd: |
+    echo %configuration% %platform%
     md build
     cd build
-    cmake -G "Visual Studio 14 2015 Win64" --config Release ..
-    msbuild Boids.Experiment.sln /p:Configuration=Release /p:Platform="x64" /m
+    if "%platform%" == "x64" SET VS_FULL=Visual Studio 14 2015 Win64
+    if "%platform%" == "x64" SET VS_PLATFORM=x64
+    if "%platform%" == "x86" SET VS_FULL=Visual Studio 14 2015
+    if "%platform%" == "x86" SET VS_PLATFORM=Win32
+    if "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
+    cmake -G "%VS_FULL%" --config "%configuration%" ..
+    rem if "%platform%" == "x86" forfiles /s /m * /c "cmd /c echo @path"
+    rem if "%platform%" == "x86" forfiles /s /m * /c "perl -pi -e 's/x64/x86/g' @path"
+    type Boids.Experiment.sln
+    msbuild Boids.Experiment.sln /p:Configuration="%configuration%" /p:Platform="%VS_PLATFORM%" /m
+    cd ..
+
+# custiom script
+after_build:
+  - cp "build\%configuration%\boids.exe" "Boids.%configuration%.%platform%.exe"
+  - appveyor PushArtifact "Boids.%configuration%.%platform%.exe"
+
+# deploy to github
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: aNlfHosYcnoO3pd6mZh+i1qj0O7QxCwj2eRrqb2xf3r7fKYHaqfvfGK6NYm/7rtN
+    artifact: /*/
+    description: ''
+    draft: false
+    prerelease: false
+    on:
+      branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
+
+#artifacts:
+#  - path: build/

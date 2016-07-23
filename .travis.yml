@@ -1,3 +1,8 @@
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
 language: c
 
 cache:
@@ -13,12 +18,11 @@ install:
   - if [[ ! -f $SDL2DIR/include/SDL2/SDL.h ]]; then pushd SDL2-2.0.4; ./configure --prefix=$SDL2DIR; make; make install; popd; fi
   - export SDL2_DIR=$SDL2DIR/lib/cmake
 
-addons: &mydeps
+addons:
   apt:
-    sources: &mysources
+    sources: &common_sources
       - george-edison55-precise-backports
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise
     packages: &newcmake
       - cmake
       - cmake-data
@@ -27,11 +31,14 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: MY_BUILD_TYPE=debug
+    - compiler: clang-3.7
+    - compiler: clang-3.8
+    - compiler: clang-3.9
   include:
     - compiler: gcc-5
       addons:
         apt:
-          sources: *mysources
+          sources: *common_sources
           packages:
             - *newcmake
             - gcc-5
@@ -40,7 +47,7 @@ matrix:
     - compiler: gcc-5
       addons:
         apt:
-          sources: *mysources
+          sources: *common_sources
           packages:
             - *newcmake
             - gcc-5
@@ -49,19 +56,63 @@ matrix:
     - compiler: gcc-4.9
       addons:
         apt:
-          sources: *mysources
+          sources: *common_sources
           packages:
             - *newcmake
             - gcc-4.9
       env:
         - MY_BUILD_TYPE=all
+    - compiler: gcc-4.8
+      addons:
+        apt:
+          sources: *common_sources
+          packages:
+            - *newcmake
+            - gcc-4.8
+      env:
+        - MY_BUILD_TYPE=all
     - compiler: clang-3.9
       addons:
         apt:
-          sources: *mysources
+          sources:
+            - *common_sources
+            - llvm-toolchain-precise
           packages:
             - *newcmake
             - clang-3.9
+      env:
+        - MY_BUILD_TYPE=all
+    - compiler: clang-3.9
+      addons:
+        apt:
+          sources:
+            - *common_sources
+            - llvm-toolchain-precise
+          packages:
+            - *newcmake
+            - clang-3.9
+      env:
+        - MY_BUILD_TYPE=debug
+    - compiler: clang-3.8
+      addons:
+        apt:
+          sources:
+            - *common_sources
+            - llvm-toolchain-precise-3.8
+          packages:
+            - *newcmake
+            - clang-3.8
+      env:
+        - MY_BUILD_TYPE=all
+    - compiler: clang-3.7
+      addons:
+        apt:
+          sources:
+            - *common_sources
+            - llvm-toolchain-precise-3.7
+          packages:
+            - *newcmake
+            - clang-3.7
       env:
         - MY_BUILD_TYPE=all
 

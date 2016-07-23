@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # CMake project wrapper Makefile
+# ----------------------------------------------------------------------------
 # Heavily modified, from:
 #     https://code.google.com/archive/p/cpp-project-template/
 # BSD-3 License http://opensource.org/licenses/BSD-3-Clause
