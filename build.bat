@@ -1,17 +1,17 @@
 REM @ECHO OFF
-IF NOT WHERE /q clang-cl (
+IF NOT where /q clang-cl (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."
 	ECHO "http://llvm.org/releases/download.html"
 	GOTO:eof
 )
-IF NOT WHERE /q cmake (
+IF NOT where /q cmake (
 	ECHO "*** Cmake not detected ***"
 	ECHO "Please install Cmake and try again."
 	ECHO "https://cmake.org/download/#latest"
 	GOTO:eof
 )
-IF NOT WHERE /q msbuild (
+IF NOT where /q msbuild (
 	ECHO "*** MSBuild not detected ***"
 	ECHO "Please install Visual Studio and try again."
 	GOTO:eof
