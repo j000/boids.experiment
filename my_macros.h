@@ -62,6 +62,8 @@
 #    if defined(__clang__)
 #      define SDL_PUSH_WARNINGS _Pragma ("GCC diagnostic push") \
 		_Pragma ("clang diagnostic ignored \"-Wreserved-id-macro\"") \
+		_Pragma ("clang diagnostic ignored \"-Wunknown-pragmas\"") \
+		_Pragma ("clang diagnostic ignored \"-Wmacro-redefined\"") \
 		_Pragma ("clang diagnostic ignored \"-Wpadded\"")
 #      define SDL_POP_WARNINGS _Pragma ("GCC diagnostic pop")
 #    else			// __clang__
