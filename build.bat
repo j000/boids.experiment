@@ -1,4 +1,5 @@
-@ECHO OFF
+REM @ECHO OFF
+ECHO "Running as [%0] [%1] [%2]"
 (WHERE /Q clang-cl) || (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."

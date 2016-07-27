@@ -54,7 +54,6 @@ build_script:
     ECHO %configuration% %platform%
     cmake --version
     IF "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
-    ECHO %SDL2_LIBRARIES%
     ./build.bat %configuration% %platform%
 
 # custiom script
