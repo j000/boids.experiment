@@ -1,21 +1,17 @@
 REM @ECHO OFF
-echo debug test
-where /Q clang-cl && echo "found"
-where /Q clang-cl || echo "not found"
-echo debug test2
-IF NOT (WHERE /Q clang-cl) (
+(WHERE /Q clang-cl) || (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."
 	ECHO "http://llvm.org/releases/download.html"
 	GOTO:eof
 )
-IF NOT WHERE /Q cmake (
+(WHERE /Q cmake) || (
 	ECHO "*** Cmake not detected ***"
 	ECHO "Please install Cmake and try again."
 	ECHO "https://cmake.org/download/#latest"
 	GOTO:eof
 )
-IF NOT WHERE /Q msbuild (
+(WHERE /Q msbuild) || (
 	ECHO "*** MSBuild not detected ***"
 	ECHO "Please install Visual Studio and try again."
 	GOTO:eof
