@@ -1,5 +1,4 @@
-REM @ECHO OFF
-ECHO "Running as [%0] [%1] [%2]"
+@ECHO OFF
 (WHERE /Q clang-cl) || (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."
@@ -17,17 +16,14 @@ ECHO "Running as [%0] [%1] [%2]"
 	ECHO "Please install Visual Studio and try again."
 	GOTO:eof
 )
-IF DEFINED 1 (
-	ECHO  "Using %1 as a configuration"
-	SET configuration=%1
-) ELSE (
+IF [%1]==[] (
 	ECHO "Setting Release configuration"
 	SET configuration=Release
-)
-IF DEFINED 2 (
-	ECHO  "Using %2 as a platform"
-	SET platform=%2
 ) ELSE (
+	ECHO  "Using %1 as a configuration"
+	SET configuration=%1
+)
+IF [%2]==[] (
 	IF EXIST "%ProgramFiles(x86)%" (
 		ECHO "Detected 64-bit platform"
 		SET platform=x64
@@ -35,6 +31,9 @@ IF DEFINED 2 (
 		ECHO "Detected 32-bit platform"
 		SET platform=x86
 	)
+) ELSE (
+	ECHO  "Using %2 as a platform"
+	SET platform=%2
 )
 ECHO Building %configuration% version for %platform%
 IF NOT EXIST ./build MKDIR build
