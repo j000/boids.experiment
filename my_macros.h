@@ -56,10 +56,10 @@
 
 // http://nadeausoftware.com/articles/2012/01/c_c_tip_how_use_compiler_predefined_macros_detect_operating_system
 // http://nadeausoftware.com/articles/2012/10/c_c_tip_how_detect_compiler_name_and_version_using_compiler_predefined_macros
-#  ifdef __GNUC__		// clang understands this too
+#  if defined(__GNUC__) || defined(__clang__)
 #    define NORETURN __attribute__ ((noreturn))
 /* skip SDL errors */
-#    ifdef __clang__
+#    if defined(__clang__)
 #      define SDL_PUSH_WARNINGS _Pragma ("GCC diagnostic push") \
 		_Pragma ("clang diagnostic ignored \"-Wreserved-id-macro\"") \
 		_Pragma ("clang diagnostic ignored \"-Wpadded\"")
@@ -68,7 +68,7 @@
 #      define SDL_PUSH_WARNINGS
 #      define SDL_POP_WARNINGS
 #    endif			// __clang__
-#  elif _MSC_VER		// MSVC
+#  elif defined(_MSC_VER)		// MSVC
 #    define NORETURN __declspec (noreturn)
 /* skip SDL errors */
 #    define SDL_PUSH_WARNINGS __pragma ("warning(push)") \
