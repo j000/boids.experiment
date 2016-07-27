@@ -1,4 +1,9 @@
 REM @ECHO OFF
+echo debug test
+where
+where clang-cl && echo "found"
+where clang-cl || echo "not found"
+echo debug test2
 IF NOT WHERE /Q clang-cl (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."
