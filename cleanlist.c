@@ -3,7 +3,8 @@
 #include "my_macros.h"
 #include "cleanlist.h"
 
-static pListItem create_item (fpCleaner func, pArgument arg) {
+inline static
+pListItem create_item (fpCleaner func, pArgument arg) {
 	pListItem where;
 
 	if ((where = malloc (sizeof (ListItem))) == NULL) {
@@ -23,6 +24,7 @@ void push_cleaner (pListItem * head, fpCleaner func, pArgument arg) {
 	*head = current;
 }
 
+inline
 pListItem pop_cleaner (pListItem * head) {
 	if ((*head) == NULL) {	// empty list
 		return NULL;

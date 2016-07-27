@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Fixed
 - Appveyor & Travis-CI deployment
+- Move drawing inside main loop
 
 ## [0.1.1] - 2016-07-23
 ### Changed
