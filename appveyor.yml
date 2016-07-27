@@ -45,24 +45,16 @@ environment:
 
 # scripts that run after cloning repository
 install:
-  - if not exist SDL2-devel-2.0.4-VC.zip appveyor DownloadFile https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
-  - if not exist SDL2-2.0.4 7z x SDL2-devel-2.0.4-VC.zip
+  - IF NOT EXIST SDL2-devel-2.0.4-VC.zip appveyor DownloadFile https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
+  - IF NOT EXIST SDL2-2.0.4 7z x SDL2-devel-2.0.4-VC.zip
 
 # custom build script
 build_script:
   cmd: |
-    echo %configuration% %platform%
+    ECHO %configuration% %platform%
     cmake --version
-    md build
-    cd build
-    if "%platform%" == "x64" SET VS_FULL=Visual Studio 14 2015 Win64
-    if "%platform%" == "x64" SET VS_PLATFORM=x64
-    if "%platform%" == "x86" SET VS_FULL=Visual Studio 14 2015
-    if "%platform%" == "x86" SET VS_PLATFORM=Win32
-    if "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
-    cmake -T "LLVM-vs2014" -G "%VS_FULL%" --config "%configuration%" ..
-    msbuild Boids.Experiment.sln /p:Configuration="%configuration%" /p:Platform="%VS_PLATFORM%" /m
-    cd ..
+    IF "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
+    ./build.bat %configuration% %platform%
 
 # custiom script
 after_build:

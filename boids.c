@@ -53,7 +53,7 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 
 	// init SDL
 	if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-		bail ("Unable to initialize SDL", SDL_GetError());
+		bail ("Unable to initialize SDL", SDL_GetError ());
 	}
 	atexit (SDL_Quit);
 
@@ -65,7 +65,7 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 			       SDL_WINDOWPOS_CENTERED, 640, 480,
 			       SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE)) ==
 	    NULL) {
-		bail ("Unable to create window", SDL_GetError());
+		bail ("Unable to create window", SDL_GetError ());
 	}
 	push_cleaner (&head, (fpCleaner) SDL_DestroyWindow, window);
 #ifdef DEBUG
@@ -79,9 +79,6 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 					    SDL_RENDERER_ACCELERATED |
 					    SDL_RENDERER_PRESENTVSYNC)) ==
 	    NULL) {
-		/*fprintf (stderr, "Unable to create renderer:  %s\n",
-		   SDL_GetError ());
-		   exit (EXIT_FAILURE); */
 		bail ("Unable to create renderer", SDL_GetError ());
 	}
 	push_cleaner (&head, (fpCleaner) SDL_DestroyRenderer, renderer);

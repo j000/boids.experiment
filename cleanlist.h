@@ -26,4 +26,4 @@ pListItem pop_cleaner (pListItem *);
  */
 void cleaning (pListItem *);
 
-#endif // CLEANLIST_H
+#endif				// CLEANLIST_H

@@ -4,9 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Fixed
-- Appveyor & Travis-CI deployment
-- Move drawing inside main loop
-- [Appveyor] Use LLVM in build
+- Appveyor & Travis-CI deployment works
+- Drawing moved inside main loop
+- Appveyor Uses LLVM in build
+- Added build.bat for Windows users
 
 ## [0.1.1] - 2016-07-23
 ### Changed
