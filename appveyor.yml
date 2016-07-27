@@ -52,6 +52,7 @@ install:
 build_script:
   cmd: |
     echo %configuration% %platform%
+    cmake --version
     md build
     cd build
     if "%platform%" == "x64" SET VS_FULL=Visual Studio 14 2015 Win64
@@ -59,7 +60,7 @@ build_script:
     if "%platform%" == "x86" SET VS_FULL=Visual Studio 14 2015
     if "%platform%" == "x86" SET VS_PLATFORM=Win32
     if "%platform%" == "x86" SET SDL2_LIBRARIES=%SDL2_LIBRARIES:x64=x86%
-    cmake -G "%VS_FULL%" --config "%configuration%" ..
+    cmake -G "%VS_FULL%" -T"LLVM-vs2014" --config "%configuration%" ..
     msbuild Boids.Experiment.sln /p:Configuration="%configuration%" /p:Platform="%VS_PLATFORM%" /m
     cd ..
 

@@ -22,12 +22,12 @@ SDL_POP_WARNINGS
 
 // declaraions
 // TODO: move to *.h
-extern pListItem head;
+static pListItem head;
 void cleaningatexit (void);
 void bail (const char *, const char *) NORETURN;
 
-// global
-pListItem head = NULL;
+// globals
+static pListItem head = NULL;
 
 void cleaningatexit (void) {
 	cleaning (&head);
@@ -53,9 +53,7 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 
 	// init SDL
 	if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-		fprintf (stderr, "Unable to initialize SDL:  %s\n",
-			 SDL_GetError ());
-		exit (EXIT_FAILURE);
+		bail ("Unable to initialize SDL", SDL_GetError());
 	}
 	atexit (SDL_Quit);
 
@@ -67,9 +65,7 @@ int main ( /* int argc, char *argv[], char **env_var_ptr */ ) {
 			       SDL_WINDOWPOS_CENTERED, 640, 480,
 			       SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE)) ==
 	    NULL) {
-		fprintf (stderr, "Unable to create window:  %s\n",
-			 SDL_GetError ());
-		exit (EXIT_FAILURE);
+		bail ("Unable to create window", SDL_GetError());
 	}
 	push_cleaner (&head, (fpCleaner) SDL_DestroyWindow, window);
 #ifdef DEBUG
