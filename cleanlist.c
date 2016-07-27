@@ -24,8 +24,7 @@ void push_cleaner (pListItem * head, fpCleaner func, pArgument arg) {
 	*head = current;
 }
 
-inline
-pListItem pop_cleaner (pListItem * head) {
+inline pListItem pop_cleaner (pListItem * head) {
 	if ((*head) == NULL) {	// empty list
 		return NULL;
 	}

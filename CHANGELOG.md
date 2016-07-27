@@ -3,11 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Appveyor Uses LLVM in build
+- Added build.bat for Windows users
 ### Fixed
 - Appveyor & Travis-CI deployment works
 - Drawing moved inside main loop
-- Appveyor Uses LLVM in build
-- Added build.bat for Windows users
 
 ## [0.1.1] - 2016-07-23
 ### Changed

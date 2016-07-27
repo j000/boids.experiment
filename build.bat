@@ -1,4 +1,4 @@
-REM @ECHO OFF
+@ECHO OFF
 (WHERE /Q clang-cl) || (
 	ECHO "*** LLVM not detected ***"
 	ECHO "Please install LLVM and try again."
@@ -17,25 +17,25 @@ REM @ECHO OFF
 	GOTO:eof
 )
 IF DEFINED "%1" (
-	REM ECHO  "Using %1 as a configuration"
+	ECHO  "Using %1 as a configuration"
 	SET configuration=%1
 ) ELSE (
-	REM ECHO "Setting configuration Release"
+	ECHO "Setting Release configuration"
 	SET configuration=Release
 )
 IF DEFINED "%2" (
-	REM ECHO  "Using %2 as a platform"
+	ECHO  "Using %2 as a platform"
 	SET platform=%2
 ) ELSE (
 	IF EXIST "%ProgramFiles(x86)%" (
-		REM ECHO "Detected 64-bit platform"
+		ECHO "Detected 64-bit platform"
 		SET platform=x64
 	) ELSE (
-		REM ECHO "Detected 32-bit platform"
+		ECHO "Detected 32-bit platform"
 		SET platform=x86
 	)
 )
-ECHO "Building %configuration% version for %platform%"
+ECHO Building %configuration% version for %platform%
 IF NOT EXIST ./build MKDIR build
 PUSHD build
 IF "%platform%" == "x64" SET VS_FULL=Visual Studio 14 2015 Win64
