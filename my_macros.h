@@ -28,9 +28,8 @@
                 TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, ONE, throwaway)
 #  define SELECT_10TH(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, ...) a10
 
-/* MS VS sets this when using GUI */
+/* MS VS sets this when using GUI, so let's set our version */
 #  if defined(_DEBUG) && !defined(DEBUG)
-/* so let's set our version */
 #    define DEBUG
 #  endif
 
@@ -72,8 +71,9 @@
 #  elif _MSC_VER		// MSVC
 #    define NORETURN __declspec (noreturn)
 /* skip SDL errors */
-#    define SDL_PUSH_WARNINGS _Pragma ("warning(push)") _Pragma ("warning(disable: 4820)")
-#    define SDL_POP_WARNINGS _Pragma ("warning(pop)")
+#    define SDL_PUSH_WARNINGS __pragma ("warning(push)") \
+		__pragma ("warning(disable: 4820)")
+#    define SDL_POP_WARNINGS __pragma ("warning(pop)")
 #  endif			// compilers
 
 #endif				// MY_MACROS_H
