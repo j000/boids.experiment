@@ -17,14 +17,14 @@ ECHO "Running as [%0] [%1] [%2]"
 	ECHO "Please install Visual Studio and try again."
 	GOTO:eof
 )
-IF DEFINED "%1" (
+IF DEFINED 1 (
 	ECHO  "Using %1 as a configuration"
 	SET configuration=%1
 ) ELSE (
 	ECHO "Setting Release configuration"
 	SET configuration=Release
 )
-IF DEFINED "%2" (
+IF DEFINED 2 (
 	ECHO  "Using %2 as a platform"
 	SET platform=%2
 ) ELSE (
