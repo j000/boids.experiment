@@ -1,0 +1,16 @@
+BasedOnStyle: LLVM
+IndentWidth: 8
+BreakBeforeBraces: Linux
+UseTab: Always
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+AlignEscapedNewlinesLeft: true
+ContinuationIndentWidth: 0
+# let's try default right
+# nope
+PointerAlignment: Left
+SpaceBeforeParens: Always
+SpaceBeforeParens: ControlStatements
+BreakBeforeBinaryOperators: All
+MacroBlockBegin: '.*_PUSH_.*'
+MacroBlockEnd: '.*_POP_.*'

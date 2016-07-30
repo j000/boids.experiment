@@ -17,22 +17,22 @@
 	GOTO:eof
 )
 IF [%1]==[] (
-	ECHO "Setting Release configuration"
+	REM ECHO Setting Release configuration
 	SET configuration=Release
 ) ELSE (
-	ECHO  "Using %1 as a configuration"
+	REM ECHO Using %1 as a configuration
 	SET configuration=%1
 )
 IF [%2]==[] (
 	IF EXIST "%ProgramFiles(x86)%" (
-		ECHO "Detected 64-bit platform"
+		REM ECHO Detected 64-bit platform
 		SET platform=x64
 	) ELSE (
-		ECHO "Detected 32-bit platform"
+		REM ECHO Detected 32-bit platform
 		SET platform=x86
 	)
 ) ELSE (
-	ECHO  "Using %2 as a platform"
+	REM ECHO Using %2 as a platform
 	SET platform=%2
 )
 ECHO Building %configuration% version for %platform%
