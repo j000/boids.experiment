@@ -1,5 +1,5 @@
 # set this filters to automatically 'edit' assumed-version file
 # if you are using linux you can simply source this file
-# . README
+# . ./README
 git config filter.tagger.smudge 'perl -pe "s/\\\$Tag[^\\\$]*\\\$/\\\$Tag\\\$/"'
 git config filter.tagger.clean 'perl -pe "chomp(my \$git_desc=\`git describe --tags\`);(\$major,\$minor,\$patch,\$commits)=(\$git_desc=~/(\\d+)\\.(\\d+)(?:\\.(\\d+))?(?:-(?:(\\d+)-(?:\\S+)))?/);++\$patch;++\$commits;my \$out=q/\$Tag:/.\$major.q/./.\$minor.q/./.\$patch.q/-alpha./.\$commits.q/\$/;s/\\\$Tag[^\\\$]*\\\$/\$out/"'

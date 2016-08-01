@@ -118,7 +118,6 @@ matrix:
         - MY_BUILD_TYPE=all
 
 script:
-  - apt-cache showpkg $compiler
   - cmake --version
   - make $MY_BUILD_TYPE
 
