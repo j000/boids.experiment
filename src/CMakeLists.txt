@@ -1,5 +1,5 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
-#PROJECT ("Boids.Experiment" C)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.2) # travis-ci is stuck on this
+PROJECT ("Boids.Experiment" C)
 
 # create executable
 ADD_EXECUTABLE (boids boids.c)
@@ -36,15 +36,16 @@ IF (NOT (DEFINED SDL2_LIBRARIES AND DEFINED SDL2_INCLUDE_DIRS))
 	ELSE (DEFINED ENV{APPVEYOR})
 		FIND_PACKAGE (SDL2 REQUIRED)
 	ENDIF (DEFINED ENV{APPVEYOR})
+	# CMP0004 policy: remove trailing space
+	STRING (STRIP "${SDL2_LIBRARIES} " SDL2_LIBRARIES)
+	STRING (STRIP "${SDL2_INCLUDE_DIRS} " SDL2_INCLUDE_DIRS)
+	SET (SDL2_LIBRARIES "${SDL2_LIBRARIES}" CACHE PATH "Patch to SDL2 libraries")
+	SET (SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}" CACHE PATH "Path to SDL2 include files")
 ENDIF (NOT (DEFINED SDL2_LIBRARIES AND DEFINED SDL2_INCLUDE_DIRS))
-# CMP0004 policy: remove trailing space
-STRING (STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
-STRING (STRIP "${SDL2_INCLUDE_DIRS}" SDL2_INCLUDE_DIRS)
 TARGET_INCLUDE_DIRECTORIES (boids PRIVATE "${SDL2_INCLUDE_DIRS}")
 FOREACH (LIB ${SDL2_LIBRARIES})
 	TARGET_LINK_LIBRARIES (boids PRIVATE ${LIB})
 ENDFOREACH (LIB ${SDL2_LIBRARIES})
-
 ########################################
 # get current version from git.
 ########################################
@@ -60,17 +61,15 @@ SET (VERSION_PRERELEASE "${CMAKE_MATCH_5}")
 MESSAGE (STATUS "Version: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_PRERELEASE}")
 # create version file
 SET (version_c "${CMAKE_CURRENT_BINARY_DIR}/version.c")
-CONFIGURE_FILE ("${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.c.in" "${version_c}")
+CONFIGURE_FILE ("${CMAKE_CURRENT_SOURCE_DIR}/version.c.in" "${version_c}")
 TARGET_SOURCES (boids PRIVATE "${version_c}")
 
 ########################################
-# build types
+# build
 ########################################
 
-# building inside travis-ci
-IF (DEFINED ENV{TRAVIS})
-	SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-ENDIF (DEFINED ENV{TRAVIS})
+# why is it set by default anyway?
+STRING (REGEX REPLACE "-rdynamic" "" CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS}")
 
 # building debug
 IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
