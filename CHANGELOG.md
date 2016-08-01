@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Appveyor & Travis-CI deployment works
 - Drawing moved inside main loop
+- Moved source into src directory
 
 # [0.1.1] - 2016-07-23
 

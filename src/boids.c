@@ -51,6 +51,7 @@ int main(/* int argc, char *argv[], char **env_var_ptr */)
 
 #ifdef DEBUG
 	push_cleaner(&head, (fpCleaner)printf, "done\n");
+	printf("*** DEBUG VERSION ***\n");
 #endif
 
 	printf("%s v%s.%s.%s-%s\n", gVERSION, gVERSION_MAJOR, gVERSION_MINOR,
@@ -104,7 +105,11 @@ int main(/* int argc, char *argv[], char **env_var_ptr */)
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT) {
 				ERROR("quit");
+#ifdef DEBUG
+				keepgoing = 1;
+#else
 				keepgoing = false;
+#endif
 			}
 		}
 
